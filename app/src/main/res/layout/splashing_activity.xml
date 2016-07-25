@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="入口"
+        android:text=""
         android:textSize="30sp"
         />
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="進入功能頁"
+        android:text=""
         />
 
 </RelativeLayout>

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends BaseInteractionActivity {
 
@@ -12,7 +14,27 @@ public class MainActivity extends BaseInteractionActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+
+        ((TextView)findViewById(R.id.tv)).setText(String.valueOf(hashCode()));
+
+        findViewById(R.id.endBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainActivity.getStartIntent(getApplicationContext()));
+//                finish();
+            }
+        });
     }
+
+
 
     public static Intent getStartIntent(final Context context) {
         Intent startIntent = new Intent(context, MainActivity.class);
