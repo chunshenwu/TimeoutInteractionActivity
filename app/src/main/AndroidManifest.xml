@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             android:configChanges="keyboardHidden"
             android:screenOrientation="portrait"
 
@@ -18,7 +18,7 @@
 
 
         <activity
-            android:name=".SplashingActivity">
+            android:name=".activity.SplashingActivity">
             android:configChanges="keyboardHidden"
             android:screenOrientation="portrait"
 

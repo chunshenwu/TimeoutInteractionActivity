@@ -1,10 +1,12 @@
-package com.example.jason_wu.timeout;
+package com.example.jason_wu.timeout.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.jason_wu.timeout.R;
 
 public class SplashingActivity extends Activity {
 
