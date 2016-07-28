@@ -34,21 +34,60 @@ public abstract class BaseInteractionActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume: " + hashCode());
-        initProxy();
-        checkTimeOrUpdateTime();
+        initTimeout();
+        checkTimeout();
     }
 
     @Override
     final public void onUserInteraction() {
         super.onUserInteraction();
         Log.i(TAG, "onUserInteraction: " + hashCode());
-        checkTimeOrUpdateTime();
+        checkTimeout();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(TAG, "onPause: " + hashCode());
+        pauseTimeout();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTimeout();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyTimeout();
+    }
+
+    private void initTimeout() {
+        if (mTimeOutProxy == null) {
+            mTimeOutProxy = new TimeOutProxy(this);
+        } else {
+            mTimeOutProxy.addCode(this);
+        }
+    }
+
+    private void checkTimeout() {
+        if (mTimeOutProxy == null) {
+            Log.e(TAG, "onDestroy: Check mTimeOutProxy life cycle.");
+            return;
+        }
+
+        Log.d(TAG, "checkTimeout:" + hashCode());
+        if (mTimeOutProxy.isTimeout(this)) {
+            Log.d(TAG, "checkTimeout: isTimeout , " + hashCode());
+            mTimeOutProxy.show(this);
+        } else {
+            mTimeOutProxy.updateLastInteractionTime();
+        }
+    }
+
+    private void pauseTimeout() {
         if (mTimeOutProxy.isShowingDialog(this)) {
             mTimeOutProxy.dismissDialog(this);
             Log.i(TAG, "onPause: isShowingDialog is true.");
@@ -59,9 +98,7 @@ public abstract class BaseInteractionActivity extends Activity {
         mTimeOutProxy.removeCode(this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void stopTimeout() {
         if (mTimeOutProxy == null) {
             Log.e(TAG, "onStop: Check mTimeOutProxy life cycle.");
             return;
@@ -73,9 +110,7 @@ public abstract class BaseInteractionActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void destroyTimeout() {
         if (mTimeOutProxy == null) {
             Log.e(TAG, "onDestroy: Check mTimeOutProxy life cycle.");
             return;
@@ -94,29 +129,5 @@ public abstract class BaseInteractionActivity extends Activity {
             Log.d(TAG, "onDestroy: list = " + mTimeOutProxy.printAll());
         }
     }
-
-    private void initProxy() {
-        if (mTimeOutProxy == null) {
-            mTimeOutProxy = new TimeOutProxy(this);
-        } else {
-            mTimeOutProxy.addCode(this);
-        }
-    }
-
-    private void checkTimeOrUpdateTime() {
-        if (mTimeOutProxy == null) {
-            Log.e(TAG, "onDestroy: Check mTimeOutProxy life cycle.");
-            return;
-        }
-
-        Log.d(TAG, "checkTimeOrUpdateTime:" + hashCode());
-        if (mTimeOutProxy.isTimeout(this)) {
-            Log.d(TAG, "checkTimeOrUpdateTime: isTimeout , " + hashCode());
-            mTimeOutProxy.show(this);
-        } else {
-            mTimeOutProxy.updateLastInteractionTime();
-        }
-    }
-
 
 }
